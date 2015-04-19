@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aufgabe3.cs" />
     <Compile Include="Aufgabe2.cs" />
     <Compile Include="Aufgabe1.cs" />
     <Compile Include="Program.cs" />
