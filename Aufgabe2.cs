@@ -32,6 +32,7 @@ namespace Frame.Chaos
         private Image<Rgb, byte> _image;
         private Random _rand;
         private Painter _painter;
+        private const int MAX_DEPTH = 10;
         
         public Aufgabe2()
         {
@@ -74,7 +75,7 @@ namespace Frame.Chaos
             _painter = new Painter(ref _image);
 
             // Create a new frame to display the raster image
-            _frame = new FrmImage(Name, ImageWidth, ImageHeight, DisplayMode.Zoomable)
+            _frame = new FrmImage(Name, _image, DisplayMode.Zoomable)
                 {
                     InterpolationMode = InterpolationMode.NearestNeighbor,
                     SmoothingMode = SmoothingMode.None
@@ -87,7 +88,9 @@ namespace Frame.Chaos
             //Inform user about possibility to draw dots with the mouse
             Logger.Instance.LogInfo("");
 
-            aufgabe();
+            // rekursive Funkiton
+            paintRectBlack(new Vector2(0, 0), new Vector2(ImageWidth, ImageHeight), 1);
+            _frame.Repaint();
             
             // MyMethod: draw some random dots to get started
             // MyMethod(_image);
@@ -111,8 +114,10 @@ namespace Frame.Chaos
 
         private void DrawDot(object sender, MouseEventArgs e)
         {
-
-            _image[e.Y, e.X] = new Rgb(255,0,0);
+            float xFactor = e.X;
+            float yFactor = e.Y;
+            
+            _image[ (int)yFactor,(int)xFactor ] = new Rgb(255,0,0);
 
             _frame.Repaint();
 
@@ -124,47 +129,23 @@ namespace Frame.Chaos
             _image[y ,x ] = new Rgb(255,0,0);
 
         }
-        // Zeichnet die geforderten Sachen
-        // _initPoints[3] ist "Palt"
-        // _initPoints[4] ist "Pneu"
-        private void aufgabe()
+
+        private void paintRectBlack (Vector2 vec1, Vector2 vec2, int depth)
         {
-            //// Alles rot färben
-            //for (int h = 0; h < ImageHeight; h++)
-            //{
+            // Wenn die maximale Tiefe erreicht ist, Funktion beenden
+            if (depth > MAX_DEPTH) return;
 
-            //    for (int w = 0; w < ImageWidth; w++)
-            //    {
-            //        drawDotRED(w, h);
-            //    }
+            // Schwarzes Rechteck im oberen Rechten Quadranten zeichnen
+            _painter.PaintRectangle(new Vector2((vec1.X + vec2.X)/ 2, (vec1.Y+vec2.Y) / 2), new Vector2(vec2.X, vec2.Y), System.Drawing.Color.Black);
+            
+            // Rekutsiver Aufruf für die anderen drei Rechtecke
+            // links oben
+            paintRectBlack(new Vector2(vec1.X,(vec1.Y+vec2.Y) / 2), new Vector2((vec1.X + vec2.X)/ 2,vec2.Y), depth + 1);
+            //links unten
+            paintRectBlack(new Vector2(vec1.X, vec1.Y), new Vector2((vec1.X + vec2.X)/ 2, (vec1.Y+vec2.Y) / 2), depth + 1);
+            // rechts unten
+            paintRectBlack(new Vector2((vec1.X + vec2.X) / 2, vec1.Y), new Vector2(vec2.X , (vec1.Y + vec2.Y) / 2), depth + 1 );
 
-            //}
-            //_frame.Repaint();
-
-
-            // Schwarzes rechteck zeichnen
-            Point p1 = new Point();
-            Point p2 = new Point();
-
-            p1.x = 0;
-            p1.y = 0;
-            p2.x = ImageWidth;
-            p2.y = ImageHeight;
-
-            paintRectBlack(p1, p2);
-               
-        }
-
-        private void paintRectBlack (Point p1, Point p2)
-        {
-            Vector2 vec1;
-            Microsoft.Xna.Framework.Vector2 vec2;
-
-            vec1.X = p1.x;
-            vec1.Y = p1.y;
-
-            _painter.PaintRectangle(new Vector2((float)0, (float)0),new Vector2((float)10, (float)10), System.Drawing.Color.Black);
-            _frame.Repaint();
         }
 
         private Color GenerateRandomColor()
