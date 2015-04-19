@@ -11,6 +11,7 @@ using GLab.Core;
 using GLab.Core.Forms;
 using GLab.Core.PluginInterfaces;
 using GLab.Chaos;
+using GLab.Chaos.Datastructure;
 using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
 
@@ -33,6 +34,7 @@ namespace Frame.Chaos
         private Image<Rgb, byte> _image;
         private Random _rand;
         private Painter _painter;
+        private Palette _palette;
         
         public Aufgabe4()
         {
@@ -74,6 +76,9 @@ namespace Frame.Chaos
             // Painter initialisieren
             _painter = new Painter(ref _image);
 
+            // Reader initialisieren
+            _palette = GLabReader.ReadPaletteFromFile("Multcol4.pal");
+
             // Create a new frame to display the raster image
             _frame = new FrmImage(Name, _image, DisplayMode.Zoomable)
                 {
@@ -97,46 +102,40 @@ namespace Frame.Chaos
         
         private void Aufgabe()
         {
-            // Zweidimensionales Array erstellen
-            int[,] iMatrix = new int[513, 512];
-            int p1 = 0;
-            int p2 = 0;
-            String ausgabe = "";
-
-            // Erste Zeile des Array belegen
-            iMatrix[1, 0] = 1;
+            int iVergleich;
+            int iAnzFarben = _palette.Count;
 
             // Array Zeilenweise durchlaufen
             for (int iY = 0; iY < ImageHeight; iY++)
             {
                 // Array ab der zweiten Spalte durchlaufen
-                for (int iX = 1; iX < ImageWidth; iX++)
-                {
-                    if ((int)(iY & iX) == (int)0)
+                for (int iX = 0; iX < ImageWidth; iX++)
+                {   
+                    // Bitweise verknüpfen und zuweisen
+                    iVergleich = (int)(iY & iX);
+
+                    // Wenn der Vergleich 0 ergibt
+                    if (iVergleich == 0)
                     {
-                        drawDotRED(iX, iY);
+                        //_palette[iVergleich % iAnzFarben];
+                        // roten Punkt zeichnen
+                        drawMyDot(iX, iY, Color.Red);
+                    } 
+                    else
+                    {
+                        drawMyDot(iX, iY, _palette[iVergleich%iAnzFarben]);
                     }
+
                 }
             }
-
-
-            //for (int iY = 0; iY < iMatrix.GetLength(1); iY++)
-            //{
-            //    // Array ab der zweiten Spalte durchlaufen
-            //    for (int iX = 1; iX < iMatrix.GetLength(0); iX++)
-            //    {   
-            //        // wenn die Zahl in der Matrix ungerade ist
-            //        if (iMatrix[iX , iY] == 1) _painter.PaintPoint(new Vector2(iX - 1 , Math.Abs(iY-ImageHeight)), Color.Red);
-            //    }
-            //}
 
             _frame.Repaint();
         }
 
-        private void drawDotRED(int x, int y)
+        private void drawMyDot(int x, int y, Color color)
         {
 
-            _image[Math.Abs(y-(ImageHeight-1)), x] = new Rgb(255, 0, 0);
+            _image[Math.Abs(y - (ImageHeight - 1)), x] = new Rgb(color);
 
         }
         
