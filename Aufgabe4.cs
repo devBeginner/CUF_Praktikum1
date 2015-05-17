@@ -110,21 +110,29 @@ namespace Frame.Chaos
             {
                 // Array ab der zweiten Spalte durchlaufen
                 for (int iX = 0; iX < ImageWidth; iX++)
-                {   
-                    // Bitweise verknüpfen und zuweisen
-                    iVergleich = (int)(iY & iX);
+                {
 
-                    // Wenn der Vergleich 0 ergibt
-                    if (iVergleich == 0)
-                    {
+                    int i1, i2;
+                    i1 = iY;
+                    i2 = iX;
+                    i1 = (i1 >> 1) ^ iY;
+                    i2 = (i2 >> 1) ^ iX;
+
+                    // Bitweise verknüpfen und zuweisen
+                    //iVergleich = (int)(iY & iX);
+                    iVergleich = (int)(i1 & i2);
+                    
+                    //// Wenn der Vergleich 0 ergibt
+                    //if (iVergleich == 0)
+                    //{
                         //_palette[iVergleich % iAnzFarben];
                         // roten Punkt zeichnen
                         drawMyDot(iX, iY, Color.Red);
-                    } 
-                    else
-                    {
-                        drawMyDot(iX, iY, _palette[iVergleich%iAnzFarben]);
-                    }
+                    //} 
+                    //else
+                    //{
+                        //drawMyDot(iX, iY, _palette[iVergleich%iAnzFarben]);
+                    //}
 
                 }
             }
@@ -135,7 +143,8 @@ namespace Frame.Chaos
         private void drawMyDot(int x, int y, Color color)
         {
 
-            _image[Math.Abs(y - (ImageHeight - 1)), x] = new Rgb(color);
+            //_image[Math.Abs(y - (ImageHeight - 1)), x] = new Rgb(color);
+            _painter.PaintPoint(new Vector2(x, y), color);
 
         }
         

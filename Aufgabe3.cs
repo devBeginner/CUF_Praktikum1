@@ -102,6 +102,7 @@ namespace Frame.Chaos
             int p1 = 0;
             int p2 = 0;
             String ausgabe = "";
+            
 
             // Erste Zeile des Array belegen
             iMatrix[1, 0] = 1;
@@ -114,7 +115,9 @@ namespace Frame.Chaos
                 {
                     p1 = iMatrix[iX - 1 , iY - 1];
                     p2 = iMatrix[iX , iY - 1];
-                    iMatrix[iX, iY] = (p1 + p2)%2;
+
+// HIER ÄNDERN ----------
+iMatrix[iX, iY] = (p1 + p2) % 4;
                     ausgabe += iMatrix[iX, iY];
                 }
                 Logger.Instance.LogInfo(ausgabe + "\n");
@@ -128,11 +131,12 @@ namespace Frame.Chaos
                 for (int iX = 1; iX < iMatrix.GetLength(0); iX++)
                 {   
                     // wenn die Zahl in der Matrix ungerade ist
-                    if (iMatrix[iX , iY] == 1) _painter.PaintPoint(new Vector2(iX - 1 , Math.Abs(iY-ImageHeight)), Color.Red);
+                    if (iMatrix[iX , iY]%2 != 0) _painter.PaintPoint(new Vector2(iX - 1 , Math.Abs(iY-ImageHeight)), Color.Red);
                 }
             }
 
             _frame.Repaint();
+
         }
 
         private void DrawDot(object sender, MouseEventArgs e)

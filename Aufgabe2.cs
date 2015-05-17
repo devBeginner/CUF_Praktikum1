@@ -32,7 +32,7 @@ namespace Frame.Chaos
         private Image<Rgb, byte> _image;
         private Random _rand;
         private Painter _painter;
-        private const int MAX_DEPTH = 10;
+        private const int MAX_DEPTH = 5;
         
         public Aufgabe2()
         {

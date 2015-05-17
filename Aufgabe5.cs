@@ -12,7 +12,7 @@ using GLab.Core.PluginInterfaces;
 using GLab.Chaos;
 using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
-
+using GLab.Core.Forms.Input;
 #endregion
 
 namespace Frame.Chaos
@@ -88,21 +88,7 @@ namespace Frame.Chaos
 
             //Inform user about possibility to draw dots with the mouse
             Logger.Instance.LogInfo("Select 3 Dots by left clicking!");
-            
-            // Punkte benennen
-            _initPoints[0].name = "P1";
-            _initPoints[0].x = 0;
-            _initPoints[0].y = 0;
-            _initPoints[1].name = "P2";
-            _initPoints[1].x = ImageWidth-1;
-            _initPoints[1].y = ImageHeight-1;
-            _initPoints[2].name = "Q1";
-            _initPoints[3].name = "Q2";
-            _initPoints[4].name = "Pneu";
-            
-            // MyMethod: draw some random dots to get started
-            // MyMethod(_image);
-
+                        
             // Register this plugin as a GUI extension
             GLabController.Instance.RegisterExtension(this);
 
@@ -145,59 +131,41 @@ namespace Frame.Chaos
         // _initPoints[4] ist "Pneu"
         private void Aufgabe()
         {
-            const int MAX_RANG = 5;
-            int iRandRang;
-            int iTeiler;
-            int iQx;
-            int iQy;
-            int dX;
-            int dY;
-            int iKante;
 
-            for (int iIter = 0; iIter < 10000; iIter++) {
+            Vector2[] vecs = new Vector2[10];
+            vecs[0].X = 0; vecs[0].Y = 0;
+            vecs[1].X = 0; vecs[1].Y = 511;
+            vecs[2].X = 511; vecs[2].Y = 511;
+            vecs[3].X = 511; vecs[3].Y = 0;
 
-                // Nach 100 Iterationen die Farbe ändern und neu zeichnen
-                if (iIter % 100 == 0)
-                {
-                    //colPoints = GenerateRandomColor();
-                    _frame.Repaint();
-                }
+            vecs[4].X = 511 / 3; vecs[4].Y = 511 / 3;
+            vecs[5].X = 511 / 3; vecs[5].Y = 511 / 3 * 2;
+            vecs[6].X = 511 / 3 * 2; vecs[6].Y = 511 / 3;
+            vecs[7].X = 511 / 3 * 2; vecs[7].Y = 511 / 3 * 2;
 
-                // Rang und teiler bestimmen
-                iRandRang = _rand.Next(MAX_RANG)+1;
-                iTeiler = iRandRang * 3;
-                iKante = _initPoints[1].x / iTeiler;
+            vecs[8].X = 0; vecs[8].Y = 0;
+            
+            int iRand;
 
-                // Quadrat bestimmen und Offset zum 
-                iQx = _rand.Next(iTeiler);
-                iQy = _rand.Next(iTeiler);
-                dX = iKante * iQx;
-                dY = iKante * iQy;
+            for (int i = 0; i < 10000; i++){
 
-                // Die beiden Punkte zum Zeichnen bestimmen
-                _initPoints[3].x = _initPoints[0].x + dX;
-                _initPoints[3].y = _initPoints[0].y + dY;
+                iRand = _rand.Next() % 8;
 
-                _initPoints[4].x = _initPoints[3].x + iKante;
-                _initPoints[4].y = _initPoints[3].y + iKante;
+                vecs[9].X = (vecs[8].X + vecs[iRand].X)/2 / 3;
+                vecs[9].Y = (vecs[8].Y + vecs[iRand].Y)/2 / 3;
 
-                // Quadrat zeichnen
-                _painter.PaintRectangle(new Vector2(_initPoints[3].x + (1  * iKante/ 3), _initPoints[3].y + (1  * iKante/ 3)), new Vector2(_initPoints[3].x + (2* iKante / 3) , _initPoints[3].y + (2 * iKante / 3)), System.Drawing.Color.Red);
+                vecs[8].X = vecs[9].X;
+                vecs[8].Y = vecs[9].Y;
+                
+                // Punkt zeichnen
+                _image[Convert.ToInt32( vecs[8].Y ), Convert.ToInt32( vecs[8].X )] = new Rgb(255, 0, 0);
 
-                //// Koordinaten des neuen Punktes berechnen
-                //_initPoints[4].x = (_initPoints[3].x + _initPoints[iPoint].x) / 2;
-                //_initPoints[4].y = (_initPoints[3].y + _initPoints[iPoint].y) / 2;
-
-
-                //// Neuen Punkt imm alten Speichern
-                //_initPoints[3].x = _initPoints[4].x;
-                //_initPoints[3].y = _initPoints[4].y;
-
-                //// Punkt zeichnen
-                //_image[_initPoints[4].y,_initPoints[4].x] = new Rgb(colPoints);
-                _frame.Repaint();
             }
 
+
+            //// Punkt zeichnen
+            _frame.Repaint();
+            
         }
 
         private System.Drawing.Color GenerateRandomColor()
