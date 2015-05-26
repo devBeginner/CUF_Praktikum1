@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="P2_1.cs" />
     <Compile Include="Aufgabe5.cs" />
     <Compile Include="Aufgabe4.cs" />
     <Compile Include="Aufgabe3.cs" />
@@ -101,6 +102,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Drachenflaeche_4.ifs" />
+    <None Include="Duerer_5_eck.ifs" />
+    <None Include="Farn_1.ifs" />
+    <None Include="Kristall_1.ifs" />
+    <None Include="Menger_teppich.ifs" />
     <None Include="Multcol4.pal">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -113,6 +119,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Sierp_verwandter_1.ifs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -172,6 +179,7 @@
       <InProject>false</InProject>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Sierpinski.IFS" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
