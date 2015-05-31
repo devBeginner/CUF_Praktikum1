@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="P2_5.cs" />
     <Compile Include="P2_3.cs" />
     <Compile Include="P2_2.cs" />
     <Compile Include="P2_1.cs" />
@@ -111,6 +112,8 @@
     <None Include="IFS2\Strauch.ifs" />
     <None Include="IFS2\Swirl.ifs" />
     <None Include="IFS2\Wirbel_blatt.ifs" />
+    <None Include="IFS5\IFS_TEST_invers.ifs" />
+    <None Include="IFS5\Invers.ifs" />
     <None Include="IFS\Drachenflaeche_4.ifs" />
     <None Include="IFS\Duerer_5_eck.ifs" />
     <None Include="IFS\Farn_1.ifs" />
