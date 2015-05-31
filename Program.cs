@@ -17,6 +17,8 @@ namespace Frame.Chaos
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            GLabController.Instance.RegisterPlugin(new P2_3());
+            GLabController.Instance.RegisterPlugin(new P2_2());
             GLabController.Instance.RegisterPlugin(new P2_1());
 
             //GLabController.Instance.RegisterPlugin(new Aufgabe5());

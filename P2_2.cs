@@ -22,7 +22,7 @@ namespace Frame.Chaos
     /// <summary>
     ///   Your plugin description.
     /// </summary>
-    internal class P2_1 : IPluginClient, IGuiExtension
+    internal class P2_2 : IPluginClient, IGuiExtension
     {
         /// <summary>
         ///   Initial size of the raster image.
@@ -40,11 +40,13 @@ namespace Frame.Chaos
         private const int MAX_COORDINATE = 1024;
         private CoordinateSystem _coord;
 
+        private double[] arrProbs = new double[10];
+
         private int iKlicks = 0;
 
-        public P2_1()
+        public P2_2()
         {
-            Name = "P2 Aufgabe 1";
+            Name = "P2 Aufgabe 2";
         }
 
         #region IGuiExtension Members
@@ -119,22 +121,67 @@ namespace Frame.Chaos
                 _painter.PaintPoint(vecAlt, colorPaint);
 
                 // neue Zufallsfarbe
-                if (i % 100 == 0)
+                if (i % 500 == 0)
                 {
                     colorPaint = GenerateRandomColor();
+                    //colorPaint = Color.Green;
                     _frame.Repaint();
                 }
 
                 // Zufälliges Matrix anwenden
-                Vector3 vecNeu = Vector3.Transform(vecAlt, _ifs[_rand.Next(_ifs.Count)]);
+                Vector3 vecNeu = Vector3.Transform(vecAlt, getRandTransfMatrix());
 
                 vecAlt = vecNeu;
 
                 i++;
 
-            } while (i < 15000);
+            } while (i < 100000);
 
             _frame.Refresh();
+
+        }
+
+        private Microsoft.Xna.Framework.Matrix getRandTransfMatrix()
+        {
+            double fProb = _rand.NextDouble();
+            double dSum = arrProbs[1];
+            int iIndex = 0;
+
+            // Index mithilfe der Wahrscheinlichkeiten ermitteln
+
+            while (fProb > dSum)
+            {
+                iIndex++;
+                dSum += arrProbs[iIndex + 1];
+            }
+
+            return _ifs[iIndex];
+        }
+
+        private void readIfsProbabilities()
+        {
+            double fDeter = 0;
+
+            // Array zurücksetzen
+            for (int i = 0; i < arrProbs.Length; i++)
+            {
+                arrProbs[i] = 0;
+            }
+
+            // Alle Determinanten ermitteln und summe berechnen
+            for (int i = 0; i < _ifs.Count; i++)
+            {
+                fDeter = calcDeterminant(_ifs[i]);
+                arrProbs[0] += fDeter;
+                arrProbs[i + 1] = fDeter;
+            }
+
+            // Prozentwerte berechnen
+            for (int i = 1; i < arrProbs.Length; i++)
+            {
+                // Determinante geteilt durch die Summe der Determinanten
+                arrProbs[i] /= arrProbs[0];
+            }
 
         }
 
@@ -150,35 +197,32 @@ namespace Frame.Chaos
             switch (iKlicks)
             {
                 case 0:
-                    strIFS = "Sierpinski.IFS";
-                    break;
-                case 1:
-                    strIFS = "Drachenflaeche_4.IFS";
-                    break;
-                case 2:
-                    strIFS = "Duerer_5_eck.IFS";
-                    break;
-                case 3:
                     strIFS = "Farn_1.IFS";
                     break;
+                case 1:
+                    strIFS = "Bigbang.IFS";
+                    break;
+                case 2:
+                    strIFS = "Filmstreifen.IFS";
+                    break;
+                case 3:
+                    strIFS = "Strauch.IFS";
+                    break;
                 case 4:
-                    strIFS = "Kristall_1.IFS";
+                    strIFS = "Swirl.IFS";
                     break;
                 case 5:
-                    strIFS = "Menger_teppich.IFS";
-                    break;
-                case 6:
-                    strIFS = "Sierp_verwandter_1.IFS";
+                    strIFS = "Wirbel_blatt.IFS";
                     break;
                 default:
-                    strIFS = "Sierpinski.IFS";
+                    strIFS = "Farn_1.IFS";
                     iKlicks = 0;
                     break;
             }
             iKlicks++;
-            _ifs = GLabReader.ReadIfsFromFile("..\\..\\IFS\\" + strIFS);
+            _ifs = GLabReader.ReadIfsFromFile("..\\..\\IFS2\\" + strIFS);
             Logger.Instance.LogInfo("IFS:\t" + strIFS);
-            
+            readIfsProbabilities();
 
             // Create a new raster image for drawing
             _image = new Image<Rgb, byte>(MAX_COORDINATE, MAX_COORDINATE, new Rgb(Color.Black));
@@ -192,11 +236,19 @@ namespace Frame.Chaos
             // Punkt zeichnen
             Aufgabe(new Vector3(iX, iY, 1));
 
-
-
         }
 
+        private double calcDeterminant(Microsoft.Xna.Framework.Matrix ifs_transf)
+        {
+            double dPerc = ifs_transf.M11 * ifs_transf.M22 - ifs_transf.M21 * ifs_transf.M12;
 
+            if (dPerc == 0)
+            {
+                dPerc = 0.01d;
+            }
+
+            return Math.Abs(dPerc);
+        }
 
         private System.Drawing.Color GenerateRandomColor()
         {

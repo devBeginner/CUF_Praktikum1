@@ -71,7 +71,7 @@ namespace Frame.Chaos
             _rand = new Random();
 
             // Create a new raster image for drawing
-            _image = new Image<Rgb, byte>(ImageWidth, ImageHeight, new Rgb(Color.Black));
+            _image = new Image<Rgb, byte>(ImageWidth , ImageHeight, new Rgb(Color.White));
             
             // Painter initialisieren
             _painter = new Painter(ref _image);
@@ -98,6 +98,7 @@ namespace Frame.Chaos
 
             // Additional setup of your plugin
             Aufgabe();
+            
         }
         
         private void Aufgabe()
@@ -123,15 +124,15 @@ namespace Frame.Chaos
                     iVergleich = (int)(i1 & i2);
                     
                     //// Wenn der Vergleich 0 ergibt
-                    //if (iVergleich == 0)
-                    //{
+                    if (iVergleich == 0)
+                    {
                         //_palette[iVergleich % iAnzFarben];
                         // roten Punkt zeichnen
                         drawMyDot(iX, iY, Color.Red);
-                    //} 
+                    }
                     //else
                     //{
-                        //drawMyDot(iX, iY, _palette[iVergleich%iAnzFarben]);
+                    //    drawMyDot(iX, iY, _palette[iVergleich % iAnzFarben]);
                     //}
 
                 }
