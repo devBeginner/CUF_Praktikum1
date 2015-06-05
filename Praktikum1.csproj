@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -84,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="P2_6.cs" />
     <Compile Include="P2_5.cs" />
     <Compile Include="P2_3.cs" />
     <Compile Include="P2_2.cs" />
@@ -105,6 +107,22 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Ants\Ant_0.ant" />
+    <None Include="Ants\Ant_1.ant" />
+    <None Include="Ants\Ant_10.ant" />
+    <None Include="Ants\Ant_11.ant" />
+    <None Include="Ants\Ant_12.ant" />
+    <None Include="Ants\Ant_13.ant" />
+    <None Include="Ants\Ant_14.ant" />
+    <None Include="Ants\Ant_2.ant" />
+    <None Include="Ants\Ant_3.ant" />
+    <None Include="Ants\Ant_4.ant" />
+    <None Include="Ants\Ant_5.ant" />
+    <None Include="Ants\Ant_6.ant" />
+    <None Include="Ants\Ant_7.ant" />
+    <None Include="Ants\Ant_8.ant" />
+    <None Include="Ants\Ant_9.ant" />
+    <None Include="Ants\Chaos_ant.pal" />
     <None Include="IFS2\IFS_TEST.ifs" />
     <None Include="IFS2\Bigbang.ifs" />
     <None Include="IFS2\Farn_1.ifs" />
