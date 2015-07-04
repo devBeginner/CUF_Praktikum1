@@ -85,7 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2_6.cs" />
+    <Compile Include="P2_A6.cs" />
+    <Compile Include="P3_A4.cs" />
     <Compile Include="P2_5.cs" />
     <Compile Include="P2_3.cs" />
     <Compile Include="P2_2.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Aufgabe3.cs" />
     <Compile Include="Aufgabe2.cs" />
     <Compile Include="Aufgabe1.cs" />
+    <Compile Include="P3_A1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -137,6 +139,26 @@
     <None Include="IFS\Farn_1.ifs" />
     <None Include="IFS\Kristall_1.ifs" />
     <None Include="IFS\Menger_teppich.ifs" />
+    <None Include="LMS\1_Drachen_kurve_2.lin" />
+    <None Include="LMS\1_Koch_kurve.lin" />
+    <None Include="LMS\1_Kreuzstich.lin" />
+    <None Include="LMS\1_Levy_teppich.lin" />
+    <None Include="LMS\1_Minkowski_wurst.lin" />
+    <None Include="LMS\1_Schwamm.lin" />
+    <None Include="LMS\2_Busch_1.lin" />
+    <None Include="LMS\2_Busch_2.lin" />
+    <None Include="LMS\2_Busch_3.lin" />
+    <None Include="LMS\2_Busch_4.lin" />
+    <None Include="LMS\2_Drachen_kurve_3.lin" />
+    <None Include="LMS\2_Hilbert_kurve.lin" />
+    <None Include="LMS\2_Pythagoras_baum.lin" />
+    <None Include="LMS\3_Baum_3d_1.lin" />
+    <None Include="LMS\3_Baum_3d_2.lin" />
+    <None Include="LMS\3_Busch_3d_1.lin" />
+    <None Include="LMS\3_Busch_3d_2.lin" />
+    <None Include="LMS\3_Hilbert_kurve_3d.lin" />
+    <None Include="LMS\3_Sierpinski_pyramide_3d.lin" />
+    <None Include="LMS\2_Koch_insel.lin" />
     <None Include="Multcol4.pal">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

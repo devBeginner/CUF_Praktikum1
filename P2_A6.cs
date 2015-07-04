@@ -26,7 +26,7 @@ namespace Frame.Chaos
     /// </summary>
     internal class P2_6 : IPluginClient, IGuiExtension
     {
-        public struct Ant
+        private struct Ant
         {
             public int iZustand;
             public int iCurrX;
@@ -187,7 +187,7 @@ namespace Frame.Chaos
         private void Aufgabe()
         {            
           
-            flow.StepCount = 100;
+            flow.StepCount = 1000;
 
             for (int iAnt = 0; iAnt < arrAnts.Length; iAnt++)
             {
@@ -200,9 +200,9 @@ namespace Frame.Chaos
                 ant1.iCurrX = (ImageWidth - 1) / 2;
                 ant1.iCurrY = (ImageHeight - 1) / 2;
 
-                for (int i = 0; i < 1000000; i++)
+                for (int i = 0; i < 10000000; i++)
                 {
-                    if (i % 2000 == 0)
+                    if (i % 1000 == 0)
                     {
                         _frame.Repaint();
                         Logger.Instance.LogInfo(""+i);

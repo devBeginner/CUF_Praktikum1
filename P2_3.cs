@@ -192,7 +192,7 @@ namespace Frame.Chaos
             switch (iKlicks)
             {
                 case 0:
-                    strIFS = "Farn_1.IFS";
+                    strIFS = "IFS_TEST.IFS";
                     break;
                 case 1:
                     strIFS = "Bigbang.IFS";
