@@ -27,7 +27,7 @@ namespace Frame.Chaos
     internal class P3_4 : IPluginClient, IGuiExtension
     {
         // zum speichern der Stati
-        public enum eState { empty, wood, termite }
+        public enum eState { empty, wood, termite, termitandwood }
 
         private FrmImage _frame;
         private Image<Rgb, byte> _image;
@@ -79,6 +79,8 @@ namespace Frame.Chaos
             private int Ynext;
             private int DirNext;
 
+            private eState status;
+
             // Zufallszahl initialisieren
             private Random _rand = new Random();
 
@@ -98,6 +100,7 @@ namespace Frame.Chaos
                 state[X, Y] = eState.termite;
                 hasChip = false;
                 countDown = 0;
+                status = eState.termite;
             }
 
             // Zufällige nächste Position ermitteln
@@ -148,7 +151,7 @@ namespace Frame.Chaos
 
                         count++;
 
-                    } while (count < arrDirection.Length && state[Xnext, Ynext] == eState.termite);
+                    } while (count < arrDirection.Length && state[Xnext, Ynext] == eState.termite && state[Xnext, Ynext] == eState.termitandwood);
 
 
                 }
@@ -214,6 +217,8 @@ namespace Frame.Chaos
                         // merken, dass sie den Chip weggelegt hat
                         hasChip = false;
 
+                        status = eState.termite;
+
                         set = true;
 
                     }
@@ -241,6 +246,9 @@ namespace Frame.Chaos
 
                     // merken, dass die Termite einen Chip hat
                     this.hasChip = true;
+                    status = eState.termitandwood;
+
+                    countDown = 20;
 
                     return true;
                 }
@@ -302,11 +310,14 @@ namespace Frame.Chaos
                         if (state[X, Y] != eState.wood)
                             state[X, Y] = eState.empty;     // Aktuelle Stelle auf leer setzen
                         move(state);                         // in die Richtung gehen
-                        state[X, Y] = eState.termite;   // Neue Position setzen
+                        state[X, Y] = status;   // Neue Position setzen
 
                         break;
 
                     case eState.termite:
+                        break;
+
+                    case eState.termitandwood:
                         break;
                 }
             }
@@ -368,7 +379,7 @@ namespace Frame.Chaos
             flow.StepCount = 1;
             int i = 0;
             int i2 = 0;
-            int iOut = 10000;
+            int iOut = 1;
 
             while (true)
             {
@@ -441,6 +452,10 @@ namespace Frame.Chaos
 
                         case eState.wood:
                             _image[y, x] = new Rgb(Color.Brown);
+                            break;
+
+                        case eState.termitandwood:
+                            _image[y, x] = new Rgb(Color.Red);
                             break;
                     }
                 }

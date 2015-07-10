@@ -70,11 +70,13 @@ namespace GLab.Example.Chaos
             _psf = new PlatonicSolidFactory(XnaRenderer.Instance);
             _matrixStack = new MatrixStack();
             filename = InputHelper.LoadFileDialog("Load LIN-File");
+            if (filename == "")
+                return;
             _lindenmayerSystem = GLabReader.ReadLindenmayerSystemFromFile(filename);
 
             if (filename.Contains("1_")) { _pos = new Vector3(0, 0, Math.Abs(_lindenmayerSystem.CoordinateSystem.MaxX) + Math.Abs(_lindenmayerSystem.CoordinateSystem.MinX)); }
             if (filename.Contains("2_")) { _pos = new Vector3(0, 0, 3); }
-            if (filename.Contains("3_")) { _pos = new Vector3(5, 5, 5); }
+            if (filename.Contains("3_")) { _pos = new Vector3(3, 5, 3); }
 
             flow = new FrmFlowControl();
 
@@ -98,6 +100,7 @@ namespace GLab.Example.Chaos
             _flyCamera = new FlyCamera();
             _flyCamera.ActivateControl();
             _flyCamera.SetLookAt(pos, lookAt, up);
+            _flyCamera.Movement = 0.2f;
             _flyCamView = new RenderView(256, 256, _scene, _flyCamera, "Fly Camera");
 
             Logger.Instance.LogInfo(
@@ -128,7 +131,7 @@ namespace GLab.Example.Chaos
             string _currentString = strAxiom;
             float changeAngle = (float)_lindenmayerSystem.ChangeOfAngle;
             _matrixStack = new MatrixStack();
-            const float DEF_WIDTH = 0.25f;
+            const float DEF_WIDTH = 0.05f;
 
             if (_lindenmayerSystem.GrSwitch == true)
             {
@@ -151,7 +154,7 @@ namespace GLab.Example.Chaos
             if (filename.Contains("Sierpinsk"))
                 _width = 1f;
             if (filename.Contains("3_Hilbert"))
-                _width = 0.5f;
+                _width = 0.05f;
 
 
             System.Drawing.Color coltmp = GenerateRandomColor();
@@ -171,9 +174,10 @@ namespace GLab.Example.Chaos
 
                         _matrixStack.PushMatrix();
 
+                        _matrixStack.Translate(new Vector3(0.5f*_size, 0, 0)); 
 
-                        _matrixStack.Translate(new Vector3(_size / 2, 0, 0));
-                        _matrixStack.Scale(new Vector3(_size, _size * _width, _size * _width));
+                        _matrixStack.Scale(new Vector3(_size, _width , _width));                      
+
 
                         gp = _psf.CreateGeometricPrimitive(PlatonicSolid.Hexahedron, currentColor, _matrixStack.Transform);
 
@@ -237,11 +241,13 @@ namespace GLab.Example.Chaos
                         break;
 
                 } // end of switch
+                //Logger.Instance.LogInfo(""+_currentString[i]);
             }
+                flow.Wait();
             //_scene.Renderables.Add(gp);
             //_matrixStack.PopMatrix();
 
-            flow.Wait();
+            
 
             // Wenn max Iteration
             if (iCurRec == iMaxRec)
@@ -312,6 +318,7 @@ namespace GLab.Example.Chaos
         {
             Stop();
             //_polarCamView.Close();
+            if (filename!="")
             _flyCamView.Close();
             XnaRenderer.Instance.Views.Clear();
         }

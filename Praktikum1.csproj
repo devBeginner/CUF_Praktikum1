@@ -139,6 +139,7 @@
     <None Include="IFS\Farn_1.ifs" />
     <None Include="IFS\Kristall_1.ifs" />
     <None Include="IFS\Menger_teppich.ifs" />
+    <None Include="LMS\1__Eigene1.lin" />
     <None Include="LMS\1_Drachen_kurve_2.lin" />
     <None Include="LMS\1_Koch_kurve.lin" />
     <None Include="LMS\1_Kreuzstich.lin" />
